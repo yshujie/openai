@@ -6,21 +6,21 @@ type APIType string
 
 const APITypeOpenAI APIType = "OPEN_AI"
 
-type ClientConfig struct {
+type APIConfig struct {
 	BaseUrl string
 	APIType APIType
 	APIKey  string
 }
 
 // DefaultConfig 默认的客户端配置
-func DefaultConfig(APIKey string) ClientConfig {
-	return ClientConfig{
+func DefaultConfig(APIKey string) APIConfig {
+	return APIConfig{
 		BaseUrl: openaiAPIURLv1,
 		APIType: APITypeOpenAI,
 		APIKey:  APIKey,
 	}
 }
 
-func (ClientConfig) string() string {
-	return "<OpenAI API ClientConfig>"
+func (APIConfig) string() string {
+	return "<OpenAI API Config>"
 }
