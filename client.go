@@ -11,10 +11,21 @@ import (
 
 // Client OpenAI 客户端
 type Client struct {
-	httpClient api.HttpClient
+	httpClient *api.HttpClient
 
 	requestBuilder    api.RequestBuilder
 	createFormBuilder func(writer io.Writer) common.FormBuilder
+}
+
+// NewClient 创建 OpenAI 客户端
+func NewClient(apiKey string) *Client {
+	return &Client{
+		httpClient:     api.NewHttpClient(apiKey),
+		requestBuilder: api.NewHttpRequestBuilder(),
+		createFormBuilder: func(body io.Writer) common.FormBuilder {
+			return common.NewDefaultFormBuilder(body)
+		},
+	}
 }
 
 // CreateChatCompletion 创建聊天完成
