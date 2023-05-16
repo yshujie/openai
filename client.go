@@ -31,11 +31,20 @@ func NewClient(apiKey string) *Client {
 // CreateChatCompletion 创建聊天完成
 func (c *Client) CreateChatCompletion(
 	ctx context.Context,
-	request chat.ChatCompletionRequest,
-) (response chat.ChatCompletionResponse, err error) {
-	if request.Stream {
-		err = chat.ErrChatCompletionStreamNotSupported
-		return
+	content string,
+) (respContent string, err error) {
+	request := chat.ChatCompletionRequest{
+		Model: "gpt-3.5-turbo",
+		Messages: []chat.ChatCompletionMessage{
+			{
+				Role:    chat.ChatMessageRoleSystem,
+				Content: "you are a helpful chatbot",
+			},
+			{
+				Role:    chat.ChatMessageRoleUser,
+				Content: content,
+			},
+		},
 	}
 
 	router, err := api.NewRouter()
@@ -57,6 +66,8 @@ func (c *Client) CreateChatCompletion(
 		return
 	}
 
+	var response chat.ChatCompletionResponse
 	err = c.httpClient.SendRequest(req, &response)
+	respContent = response.Choices[0].Message.Content
 	return
 }

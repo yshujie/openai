@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 	"errors"
-	"github.com/yshujie/openai"
+	"github.com/yshujie/openai/common"
 	"github.com/yshujie/openai/config"
 	"io"
 	"net/http"
@@ -68,16 +68,16 @@ func (c *HttpClient) isSuccess(response *http.Response) bool {
 
 // handleErrorResponse http 响应异常处理
 func (c *HttpClient) handleErrorResponse(response *http.Response) error {
-	var errResp openai.ErrorResponse
+	var errResp common.ErrorResponse
 	err := json.NewDecoder(response.Body).Decode(&errResp)
 	if err != nil {
-		return &openai.RequestError{
+		return &common.RequestError{
 			HTTPStatusCode: response.StatusCode,
 			Err:            err,
 		}
 	}
 	if errResp.Error == nil {
-		return &openai.RequestError{
+		return &common.RequestError{
 			HTTPStatusCode: response.StatusCode,
 			Err:            errResp.Error,
 		}
