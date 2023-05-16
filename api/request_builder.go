@@ -9,7 +9,7 @@ import (
 
 // RequestBuilder 请求构造器
 type RequestBuilder interface {
-	build(ctx context.Context, method, url string, request any) (*http.Request, error)
+	Build(ctx context.Context, method, url string, request any) (*http.Request, error)
 }
 
 // HttpRequestBuilder Http 请求构造器

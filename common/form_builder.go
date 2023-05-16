@@ -6,28 +6,28 @@ import (
 	"os"
 )
 
-// formBuilder 表单建造者
-type formBuilder interface {
+// FormBuilder 表单建造者
+type FormBuilder interface {
 	createFormFile(fieldName string, file *os.File) error
 	writeField(fieldName, value string) error
 	close() error
 	formDataContentType() string
 }
 
-// defaultFormBuilder 默认的表单建造者
-type defaultFormBuilder struct {
+// DefaultFormBuilder 默认的表单建造者
+type DefaultFormBuilder struct {
 	writer *multipart.Writer
 }
 
 // NewDefaultFormBuilder 创建默认表单建造者
-func NewDefaultFormBuilder(body io.Writer) *defaultFormBuilder {
-	return &defaultFormBuilder{
+func NewDefaultFormBuilder(body io.Writer) *DefaultFormBuilder {
+	return &DefaultFormBuilder{
 		writer: multipart.NewWriter(body),
 	}
 }
 
 // createFormFile 创建表单文件
-func (b *defaultFormBuilder) createFormFile(fieldName string, file *os.File) error {
+func (b *DefaultFormBuilder) createFormFile(fieldName string, file *os.File) error {
 	fieldWriter, err := b.writer.CreateFormFile(fieldName, file.Name())
 	if err != nil {
 		return err
@@ -42,16 +42,16 @@ func (b *defaultFormBuilder) createFormFile(fieldName string, file *os.File) err
 }
 
 // writeField 写字段
-func (b *defaultFormBuilder) writeField(fieldName, value string) error {
+func (b *DefaultFormBuilder) writeField(fieldName, value string) error {
 	return b.writer.WriteField(fieldName, value)
 }
 
 // close 关闭表单
-func (b *defaultFormBuilder) close() error {
+func (b *DefaultFormBuilder) close() error {
 	return b.writer.Close()
 }
 
 // formDataContentType 表单内容类型
-func (b *defaultFormBuilder) formDataContentType() string {
+func (b *DefaultFormBuilder) formDataContentType() string {
 	return b.writer.FormDataContentType()
 }
