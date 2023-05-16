@@ -2,14 +2,14 @@ package common
 
 import "encoding/json"
 
-// marshaller 数据序列化程序
-type marshaller interface {
-	marshal(v any) ([]byte, error)
+// Marshaller 数据序列化程序
+type Marshaller interface {
+	Marshal(v any) ([]byte, error)
 }
 
-// jsonMarshaller json 数据序列化程序
-type jsonMarshaller struct{}
+// JsonMarshaller json 数据序列化程序
+type JsonMarshaller struct{}
 
-func (jm *jsonMarshaller) marshal(v any) ([]byte, error) {
+func (jm *JsonMarshaller) Marshal(v any) ([]byte, error) {
 	return json.Marshal(v)
 }
