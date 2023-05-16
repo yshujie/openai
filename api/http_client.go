@@ -3,7 +3,6 @@ package api
 import (
 	"github.com/yshujie/openai/config"
 	"net/http"
-	"os"
 )
 
 // HttpClient http 客户端
@@ -13,8 +12,8 @@ type HttpClient struct {
 }
 
 // NewHttpClient 新增 http 客户端
-func NewHttpClient() *HttpClient {
-	apiConfig := config.DefaultConfig(os.Getenv("OPENAI_API_KEY"))
+func NewHttpClient(apiKey string) *HttpClient {
+	apiConfig := config.DefaultConfig(apiKey)
 	return &HttpClient{
 		apiConfig: apiConfig,
 		http:      &http.Client{},
