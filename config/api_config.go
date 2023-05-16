@@ -12,8 +12,8 @@ type APIConfig struct {
 	APIKey  string
 }
 
-// DefaultConfig 默认的客户端配置
-func DefaultConfig(APIKey string) APIConfig {
+// DefaultAPIConfig 默认的API配置
+func DefaultAPIConfig(APIKey string) APIConfig {
 	return APIConfig{
 		BaseUrl: openaiAPIURLv1,
 		APIType: APITypeOpenAI,

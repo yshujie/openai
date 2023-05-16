@@ -19,9 +19,8 @@ type HttpClient struct {
 
 // NewHttpClient 新增 http 客户端
 func NewHttpClient(apiKey string) *HttpClient {
-	apiConfig := config.DefaultConfig(apiKey)
 	return &HttpClient{
-		apiConfig: apiConfig,
+		apiConfig: config.DefaultAPIConfig(apiKey),
 		http:      &http.Client{},
 	}
 }
