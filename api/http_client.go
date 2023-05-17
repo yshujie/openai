@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/yshujie/openai/common"
 	"github.com/yshujie/openai/config"
 	"io"
@@ -25,6 +26,11 @@ func NewHttpClient(apiKey string) *HttpClient {
 	}
 }
 
+// BaseUrl 获取 baseUrl
+func (c *HttpClient) BaseUrl() string {
+	return c.apiConfig.BaseUrl
+}
+
 // SendRequest 发送请求
 func (c *HttpClient) SendRequest(request *http.Request, v any) error {
 	err := c.initRequestHeader(request)
@@ -41,7 +47,7 @@ func (c *HttpClient) SendRequest(request *http.Request, v any) error {
 	//
 	defer response.Body.Close()
 
-	if c.isSuccess(response) {
+	if !c.isSuccess(response) {
 		return c.handleErrorResponse(response)
 	}
 
@@ -54,7 +60,7 @@ func (c *HttpClient) initRequestHeader(request *http.Request) error {
 		return ErrNoValidAPIKey
 	}
 
-	request.Header.Set("Authorization", c.apiConfig.APIKey)
+	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.apiConfig.APIKey))
 	request.Header.Set("Accept", "application/json; charset=utf-8")
 	request.Header.Set("Content-Type", "application/json; charset=utf-8")
 

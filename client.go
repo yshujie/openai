@@ -47,7 +47,7 @@ func (c *Client) CreateChatCompletion(
 		},
 	}
 
-	router, err := api.NewRouter()
+	router, err := api.NewRouter(c.httpClient.BaseUrl())
 	if err != nil {
 		return
 	}

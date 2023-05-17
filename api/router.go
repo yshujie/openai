@@ -5,12 +5,14 @@ import "errors"
 var ErrInvalidUrlCode = errors.New("can not find url by this code, please check your url code")
 
 type Router struct {
-	urlMap map[string]string
+	baseUrl string
+	urlMap  map[string]string
 }
 
-func NewRouter() (*Router, error) {
+func NewRouter(baseUrl string) (*Router, error) {
 	return &Router{
-		urlMap: loadUrlMap(),
+		baseUrl: baseUrl,
+		urlMap:  loadUrlMap(),
 	}, nil
 }
 
@@ -28,5 +30,5 @@ func (r *Router) Route(code string) (url string, err error) {
 		return "", ErrInvalidUrlCode
 	}
 
-	return url, nil
+	return r.baseUrl + url, nil
 }
